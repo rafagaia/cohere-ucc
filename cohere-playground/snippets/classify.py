@@ -1,7 +1,7 @@
 import os
 import cohere
 
-co = cohere.Client("VRDuaNCB4wqFReyPvaCdRT65Sd62ea8Dc4CdfGhl")
+co = cohere.Client("cRDuaNCBFReyPvaCdRT65Sd62ea8Dc4cfGhl")
 
 from cohere.classify import Example
 
