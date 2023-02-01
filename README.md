@@ -5,7 +5,7 @@
 
 
 # how to build and share
-[TASK813-@todo] Replit or Streamlit?
+Replit
 
 
 

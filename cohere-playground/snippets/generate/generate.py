@@ -1,4 +1,3 @@
-import os
 import cohere
 
 prompt = 'You can create, own your creation and specify your royalties. \
