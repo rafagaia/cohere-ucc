@@ -1,24 +1,24 @@
-import cohere
+# import cohereFacade
 
 # @TODO: do we need modules? how to properly export CohereService?
 
 class CohereService:
-    def __init__(self, api_key, model_size, service):
+    def __init__(self, api_key, model_size):
         self.api_key = api_key
         self.model_size = model_size
-        self.service = 'generate' # 'classify', 'embed'
 
     def connect():
         self.co = cohere.Client(self.api_key)
 
     # links one request to another, or back to same one.
-    # setFlowSequence([('pc',1), ('pg',2), ('pc',1)])
+    # setFlowSequence([('pc',1), ('pg',1000), ('pc',1)])
     #   Classifies once +=> generates twice => classifies once
     def linkedSequence(context_prompt, user_prompt, seq):
         transform_words = context_prompt+"\n"+user_prompt
       # create file here, and open it.
         for tupl in seq:
           # access fd (file descriptor)
+          # shouldn't the condition be tupl[1] == tupl[1] - 1
             while ((tupl[1] = tupl[1] - 1)):
               # open file here
                 if tupl[0] == 'pg':
@@ -38,7 +38,7 @@ class CohereService:
         return transform_words
 
       # @TODO: graphSequence
-      #     
+      
 
 
     def __performClassify(m,i,ex):

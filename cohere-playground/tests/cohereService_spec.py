@@ -11,9 +11,11 @@ class TestCohereService(unittest.TestCase):
         self.assertIsNotNone(self.service.connect())
 
     def test_linkedSequence(self):
-        context_prompt = [ 'This is the context prompt.' ]
+        context_prompt = [ 'This is the context prompt. Used to "lightUp" ' ]
         user_prompt = [ 'This is the user prompt.' ]
-        seq = [('pg', 1), ('pc', 1)]
+        seq1 = [('pc', 1, user_prompt)]
+        seq2 = [('pg',1,user_prompt), ('pc',1,...)]
+      
         output_words = self.service.linkedSequence(context_prompt, user_prompt, seq)
         self.assertIsNotNone(output_words)
 
