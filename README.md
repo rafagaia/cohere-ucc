@@ -10,6 +10,8 @@ We fork a new multiprocessing process for each incoming request to use multiple 
 
 - add file ".env" -> /cohere-playground/.env </br>
     -   with variable API_KEY=yourApiKeyToTestDemo </br>
+- run: python3 server/flask_app.py </br>
+    - prototype only uses files flask_app.py, multiprocess.py, cohereService.py </br>
 </br>
 
 # Run a coLink Sequence
