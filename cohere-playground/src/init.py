@@ -29,6 +29,8 @@ if __name__ == '__main__':
     print('...[no connection]. Exiting program.')
     sys.exit(-1)
 
+
+  
   print('[Cohere<=>Colink Request] colinkSequence starting...')
   response = co_service.colinkSequence(colink["context"], "", arr_colinks)
   print('...[done] colinkSequence response:')
