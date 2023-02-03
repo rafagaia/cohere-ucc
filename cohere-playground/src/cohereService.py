@@ -1,10 +1,16 @@
+import sys
 import cohere
 
+
 class CohereService:
-    def __init__(self, api_key, model_size):
+    def __init__(self, api_key, model_size,seq, arr_prompts):
         self.api_key = api_key
         self.model_size = model_size
+        self.seq = seq
+        self.prompts = arr_prompts
         self.co = None
+        # self.co = connect()
+        # self.colinkSequence()
 
     def connect(self):
         self.co = cohere.Client(self.api_key)
@@ -14,10 +20,12 @@ class CohereService:
     # links one request to another, or back to same one.
     # setFlowSequence([('pc',1), ('pg',1000), ('pc',1)])
     #   Classifies once +=> generates twice => classifies once
-    def colinkSequence(self,context_prompt, user_prompt, seq):
-        transform_words = context_prompt+"\n"+user_prompt
+    def colinkSequence(self):
       # create file here, and open it.
-        for tupl in seq:
+        transform_words = ""
+        for tupl in self.seq:
+            for prompt in self.prompts:
+                transform_words+=prompt + "||||||"
           # access fd (file descriptor)
           # shouldn't the condition be tupl[1] == tupl[1] - 1
             cycles = tupl[1]
@@ -72,4 +80,11 @@ class CohereService:
     # def graphSequence(context_prompt, user_prompt, seq):    
 
 
-    
+def cohere_start(api_key, model_size, seq, arr_prompts):
+    print("\n********** new process *************\n")
+    co = CohereService(api_key, model_size, seq, arr_prompts)
+    co.connect()
+    result = co.colinkSequence()
+    print(f'Response Result: {result}')
+    sys.exit(0)
+    #@TODO: persist result to local file, or write to Database.
