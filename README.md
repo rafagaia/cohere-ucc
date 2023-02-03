@@ -2,6 +2,8 @@
 
 ‘coLink’ is an API-as-a-service bridge between clients and CohereAPI to scale NLP access to small and medium sized businesses in South America.
 </br>
+We implemented a Flask App with two simple endpoints: one to run a sequence and another to get its results </br>
+We fork a new multiprocessing process for each incoming request to use multiple CPUs & cores</br>
 
 
 # Setup
