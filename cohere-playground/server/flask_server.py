@@ -3,6 +3,7 @@ from subprocess import Popen, PIPE
 import multiprocessing
 import os
 from dotenv import load_dotenv
+import ast
 
 load_dotenv("./.env")
 API_KEY = os.getenv("API_KEY")
@@ -24,7 +25,7 @@ def colink_sequence():
     context_prompt = data.get("context_prompt")
     user_prompt = data.get("user_prompt")
     arr_prompts = [context_prompt, user_prompt]
-    seq = [('pg', 2)]# data.get("seq")
+    seq = ast.literal_eval(data.get("seq"))
     model_size = data.get("model_size")
     # print(f'context_prompt: {context_prompt}\nuser_prompt: {user_prompt}\nsequence:{seq}')
     

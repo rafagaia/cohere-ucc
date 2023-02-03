@@ -1,6 +1,15 @@
 import sys
 import cohere
 
+def cohere_start(api_key, model_size, seq, arr_prompts):
+    print("\n********** new process *************\n")
+    co = CohereService(api_key, model_size, seq, arr_prompts)
+    co.connect()
+    result = co.colinkSequence()
+    print(f'Response Result: {result}')
+    sys.exit(0)
+    #@TODO: persist result to local file, or write to Database.
+
 
 class CohereService:
     def __init__(self, api_key, model_size,seq, arr_prompts):
@@ -29,12 +38,14 @@ class CohereService:
           # access fd (file descriptor)
           # shouldn't the condition be tupl[1] == tupl[1] - 1
             cycles = tupl[1]
+
+            # @TODO: can we do this with functional programming paradigm rather than a while loop?
             while (cycles > 0):
                 print(f'\n****Cycles {cycles}***')
                 cycles -=1
               # open file here
                 if tupl[0] == 'pg':
-                    transform_words+=self.__performGenerate(
+                    transform_words=self.__performGenerate(
                         transform_words)
                   # @TODO write to file
                   # close file
@@ -80,11 +91,3 @@ class CohereService:
     # def graphSequence(context_prompt, user_prompt, seq):    
 
 
-def cohere_start(api_key, model_size, seq, arr_prompts):
-    print("\n********** new process *************\n")
-    co = CohereService(api_key, model_size, seq, arr_prompts)
-    co.connect()
-    result = co.colinkSequence()
-    print(f'Response Result: {result}')
-    sys.exit(0)
-    #@TODO: persist result to local file, or write to Database.
