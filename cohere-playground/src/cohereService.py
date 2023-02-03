@@ -42,7 +42,7 @@ class CohereService:
                 print(f'\n****Cycle: {-1*(cycles - tupl[1])+1}***')
                 cycles -=1
                 if tupl[0] == 'pg':
-                    transform_words=self.__performGenTextElabo(
+                    transform_words=self.__performGenerate(
                         transform_words)
                 elif tupl[0] == 'pc':
                     transform_words=self.__performClassify(
@@ -66,25 +66,24 @@ class CohereService:
             return response.classifications
 
 
-    def __performGenTextElabo(self, p):
+    def __performGenerate(self, p):
         if not self.co:
             print('[Unauthorized] You must first connect to Cohere API.')
             return 0
         else:
-            response = self.co.generate(prompt=p)
+            response = self.co.generate(
+                model=self.model_size, #'command-xlarge-nightly'
+                prompt=p,
+                max_tokens=1000,
+                temperature=0.8,
+                k=0,
+                p=0.70,
+                frequency_penalty=0,
+                presence_penalty=0,
+                stop_sequences=[],
+                return_likelihoods='NONE')
             print('GenTextElabo: {}'.format(response.generations[0].text))
             return response.generations[0].text
-
-    def __performGenTextSumm(self, p):
-        if not self.co:
-            print('[Unauthorized] You must first connect to Cohere API.')
-            return 0
-        else:
-            response = self.co.generate(prompt=p)
-            print('GenTextSumm: {}'.format(response.generations[0].text))
-            return response.generations[0].text
-
-
 
 
   # @TODO: graphSequence
