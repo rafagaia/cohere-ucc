@@ -4,13 +4,20 @@
 </br>
 
 
+# Setup
+
+- add file ".env" -> /cohere-playground/.env </br>
+    -   with variable API_KEY=yourApiKeyToTestDemo </br>
+</br>
+
 # Run a coLink Sequence
+
 
 </br>
 </br>
-------------------------------------------------
+--------------------------------------------
 /POST /colink/sequence
-------------------------------------------------</br>
+--------------------------------------------</br>
 Request body JSON {</br>
     "context_prompt": "adventures of Huckleberry Finn or as it is known in more recent editions, The Adventures of Huckleberry Finn, is a novel by American author Mark Twain, which was first published in the United Kingdom in December 1884 and in the United States in February 1885.",</br>
     "user_prompt": "text summarize Huckleberry Finn",</br>
@@ -23,9 +30,9 @@ Response: colink_id, use in GET request within few minutes for result
 </br>
 </br>
 </br>
-------------------------------------------------
+--------------------------------------------
 /GET /colink/new?id=4
-------------------------------------------------</br>
+--------------------------------------------</br>
 Response: your colink sequence response, of colink_id emitted from /POST /colink/sequence route
 </br>
 </br>
