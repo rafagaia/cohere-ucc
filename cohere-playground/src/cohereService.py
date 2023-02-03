@@ -1,14 +1,15 @@
-import sys
 import cohere
+from multiprocess import join_active_children, gc_collect_exit, sleeep
 
 def cohere_start(api_key, model_size, seq, arr_prompts):
     print("\n********** new process *************\n")
     co = CohereService(api_key, model_size, seq, arr_prompts)
     co.connect()
     result = co.colinkSequence()
-    print(f'Response Result: {result}')
-    sys.exit(0)
-    #@TODO: persist result to local file, or write to Database.
+    #@TODO: write to Database.
+    sleeep(1)
+    join_active_children()
+    gc_collect_exit(0)
 
 
 class CohereService:
@@ -32,29 +33,21 @@ class CohereService:
     def colinkSequence(self):
       # create file here, and open it.
         transform_words = ""
+        for prompt in self.prompts:
+            transform_words+=prompt
         for tupl in self.seq:
-            for prompt in self.prompts:
-                transform_words+=prompt + "||||||"
-          # access fd (file descriptor)
-          # shouldn't the condition be tupl[1] == tupl[1] - 1
             cycles = tupl[1]
-
             # @TODO: can we do this with functional programming paradigm rather than a while loop?
             while (cycles > 0):
-                print(f'\n****Cycles {cycles}***')
+                print(f'\n****Cycle: {-1*(cycles - tupl[1])+1}***')
                 cycles -=1
-              # open file here
                 if tupl[0] == 'pg':
-                    transform_words=self.__performGenerate(
+                    transform_words=self.__performGenTextElabo(
                         transform_words)
-                  # @TODO write to file
-                  # close file
                 elif tupl[0] == 'pc':
-                  transform_words+=self.__performClassify(
-                    transform_words,
-                    (context_prompt + user_prompt))
-                    # @TODO write to file
-                    # close file
+                    transform_words=self.__performClassify(
+                        transform_words,
+                        (context_prompt + user_prompt))
                 else:
                     continue
         return transform_words
@@ -73,13 +66,22 @@ class CohereService:
             return response.classifications
 
 
-    def __performGenerate(self, p):
+    def __performGenTextElabo(self, p):
         if not self.co:
             print('[Unauthorized] You must first connect to Cohere API.')
             return 0
         else:
             response = self.co.generate(prompt=p)
-            print('Prediction: {}'.format(response.generations[0].text))
+            print('GenTextElabo: {}'.format(response.generations[0].text))
+            return response.generations[0].text
+
+    def __performGenTextSumm(self, p):
+        if not self.co:
+            print('[Unauthorized] You must first connect to Cohere API.')
+            return 0
+        else:
+            response = self.co.generate(prompt=p)
+            print('GenTextSumm: {}'.format(response.generations[0].text))
             return response.generations[0].text
 
 

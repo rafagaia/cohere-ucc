@@ -16,6 +16,20 @@ from cohereService import cohere_start
 
 app = Flask(__name__)
 
+
+@app.route("/colink/status/new", methods=["GET"])
+def show_new_colink_result():
+    data = request.get_json()
+
+    # @TODO pass/read colink_id from params instead of request body
+    colink_id = data.get("colink_id")
+    # If sequence is completed, response will exist in database
+    # else:
+    status_code = 404
+    result = {"result": f'your colink response with id:{colink_id} is not yet ready. Check again in 2-3 minutes.'}
+    return jsonify(result), status_code
+
+
 @app.route("/colink/sequence", methods=["POST"])
 def colink_sequence():
     # Get the request payload
@@ -38,10 +52,8 @@ def colink_sequence():
     # colink_process.join()
 
     # @TODO: based on colinkSequence complexity, can we provide an estimate wait time for the
-    # user check back if result is ready?
+    #   user check back if result is ready?
 
-    # Perform the colinkSequence function
-    # result = colinkSequence(context_prompt, user_prompt, seq)
     status_code = 200
     result = { "colink_response": "We received your request. We're on it. Send a GET /colink/new?id=4 request in a few minutes to obtain results" }
 
