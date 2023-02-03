@@ -2,10 +2,10 @@
 
 ‘coLink’ is an API-as-a-service bridge between clients and CohereAPI to scale NLP access to small and medium sized businesses in South America.
 
-
+</br>
 # Run a coLink Sequence
-.
-------------------------------------------------
+</br>
+</br>
 /POST /colink/sequence
 ------------------------------------------------
 Requese body JSON {</br>
@@ -18,16 +18,16 @@ Will perform 10 cycles of Cohere Generate.
 
 Response: colink_id, use in GET request within few minutes for result
 ------------------------------------------------
-.
-------------------------------------------------
+</br>
+</br>
 /GET /colink/new?id=4
 ------------------------------------------------
 
 Response: your colink sequence response with colink_id
 ------------------------------------------------
-
-
-
+</br>
+</br>
+</br>
 # Future work:
   - Sequence to allow layering:</br>
       [('pg',5), ('pc',1), ('pg',2), ('pe',1)]</br>
