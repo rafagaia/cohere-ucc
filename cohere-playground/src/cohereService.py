@@ -1,5 +1,15 @@
 import cohere
+from cohere.classify import Example
 from multiprocess import join_active_children, gc_collect_exit, sleeep
+
+# @TODO: DELETE FOLLOWING VARIABLE:
+EXAMPLES = [
+        Example("example training examples the sky is blue and so are your eyes, spit a rhyme, or the word is mine", ""),
+        Example("example training examples the sky is blue and so are your eyes, spit a rhyme, or the word is yours", ""),
+        Example("example training examples the sky is blue and so are your eyes, spit a rhyme, or the word is ours", ""),
+        Example("example training examples the sky is blue and so are your eyes, spit a rhyme, or the word belong to no human.", "")
+    ]
+
 
 def cohere_start(api_key, model_size, seq, arr_prompts):
     print("\n********** new process *************\n")
@@ -13,12 +23,13 @@ def cohere_start(api_key, model_size, seq, arr_prompts):
 
 
 class CohereService:
-    def __init__(self, api_key, model_size,seq, arr_prompts):
+    def __init__(self, api_key, model_size,seq,arr_prompts):
         self.api_key = api_key
         self.model_size = model_size
         self.seq = seq
         self.prompts = arr_prompts
         self.co = None
+        # self.examples = exmp
         # self.co = connect()
         # self.colinkSequence()
 
@@ -42,25 +53,24 @@ class CohereService:
                 print(f'\n****Cycle: {-1*(cycles - tupl[1])+1}***')
                 cycles -=1
                 if tupl[0] == 'pg':
-                    transform_words=self.__performGenerate(
+                    transform_words+=self.__performGenerate(
                         transform_words)
                 elif tupl[0] == 'pc':
-                    transform_words=self.__performClassify(
-                        transform_words,
-                        (context_prompt + user_prompt))
+                    transform_words=self.__performClassify(transform_words)
                 else:
                     continue
         return transform_words
 
-    def __performClassify(self,i,ex):
+
+    def __performClassify(self,i): # ,examples):
         if not (self.co):
             print('[Unauthorized] You must first connect to Cohere API.')
             return 0
         else:
-            response = self.co.classify(
-                model=self.model_size,
-                inputs=i,
-                examples=ex
+            response = self.co.classify( # model=self.model_size,
+                model='small',
+                inputs=i, #context_prompt + user_prompt
+                examples=self.examples
             )
             print('Classification: {}'.format(response.classifications))
             return response.classifications
@@ -74,14 +84,14 @@ class CohereService:
             response = self.co.generate(
                 model=self.model_size, #'command-xlarge-nightly'
                 prompt=p,
-                max_tokens=500,
-                temperature=0.8,
-                k=0,
-                p=0.70,
-                frequency_penalty=0,
-                presence_penalty=0,
+                max_tokens=300,
+                temperature=0.93,
+                k=23,
+                p=0.43,
+                frequency_penalty=0.75,
+                presence_penalty=0.00040982,
                 stop_sequences=[],
-                return_likelihoods='ALL')
+                return_likelihoods='GENERATION')
             print('GenTextElabo: {}'.format(response.generations[0].text))
             return response.generations[0].text
 

@@ -1,16 +1,16 @@
+import os
+import ast
+import sys
+import multiprocessing
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from subprocess import Popen, PIPE
-import multiprocessing
-import os
-from dotenv import load_dotenv
-import ast
 
 load_dotenv("./.env")
 API_KEY = os.getenv("API_KEY")
 
-import sys
-
-sys.path.append("/Users/xperience/cohere-hackathon/cohere-playground/src")
+#@TODO apply relative path
+sys.path.append("/Users/xperience/ucc-team/coLink/cohere-playground/src")
 
 from cohereService import cohere_start
 
@@ -25,6 +25,9 @@ def show_new_colink_result():
     colink_id = data.get("colink_id")
     # If sequence is completed, response will exist in database
     # else:
+    status_code = 201
+    if colink_id == 4:
+        return jsonify({"bro":"Go take a shower", "sis": "go be more beautiful"}), status_code
     status_code = 404
     result = {"result": f'your colink response with id:{colink_id} is not yet ready. Check again in 2-3 minutes.'}
     return jsonify(result), status_code
