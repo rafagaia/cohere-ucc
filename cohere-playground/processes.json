@@ -1,0 +1,7 @@
+{
+    "apps": [{
+        "script": "src/init.py",
+        "instances": "max",
+        "exec_mode": "cluster"
+    }]
+}
